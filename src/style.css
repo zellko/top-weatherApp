@@ -1,0 +1,73 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{}
+
+@font-face {
+    font-family: 'poppins';
+    src: url('./font/Poppins-Regular.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'poppins';
+    src: url('./font/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: bold;
+}
+  
+  
+
+body{
+    background-color: aquamarine;
+    font-family: 'poppins', Ubuntu,sans-serif;
+    font-weight: bold;
+}
+
+img{
+    height: 128px;
+}
+
+
+
+/***************
+LOADING ANIMATION
+***************/
+svg{
+    position: absolute;
+}
+
+.loading > svg:nth-child(1){
+    transform: rotate(180deg);
+}
+
+.loading {
+    display: none;
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    animation: loading-anim 1.2s linear infinite;
+}
+
+@keyframes loading-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/***************
+JS CLASS
+***************/
+
+.show{
+    display: flex;
+}

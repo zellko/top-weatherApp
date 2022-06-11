@@ -1,6 +1,4 @@
-const API_KEY = '3bf7a0b35954a29f1f35a6169ee2f0bf';
-const test = document.querySelector('#test');
-const loading = document.querySelector('.loading');
+const API_KEY = '3bf7a0b35954a29f1f35a6169ee2f0bf'; // Open weather API Key
 
 function delay(ms) {
   // TEST: Add a delay to the resquest to test loading function
@@ -9,15 +7,36 @@ function delay(ms) {
   });
 }
 
+async function getConditionIcon(iconID) {
+  // Fetch weather condition icon...
+  try {
+    const response = await fetch(
+      `http://openweathermap.org/img/wn/${`${iconID}`}@4x.png`,
+      { mode: 'cors' },
+    );
+    // Check reponse status, if not 200, there is an error
+    if (response.status === 200) return response.url;
+    return 'img_error';
+  } catch (error) {
+    console.error(`Error fetching icon: ${error}`);
+    return 'img_error';
+  }
+}
+
 async function getGeocoding(city) {
-  // Fetch geographic coordinate from the city name...
-  // ... enter by user
+  // Fetch geographic coordinate (lat/lon) from the city name...
+  console.log(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`);
   try {
     const response = await fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`,
       { mode: 'cors' },
     );
+
+    // Check reponse status, if it's not 200, there is an error
+    if (response.status !== 200) return 'error';
+
     const data = await response.json();
+
     return data[0];
   } catch (error) {
     console.error(`Error fetching coordinate: ${error}`);
@@ -28,51 +47,42 @@ async function getGeocoding(city) {
 async function getWeather(city) {
   // Fetch weather for the entered country
 
-  // Add "loading" icon on the screen
-  loading.classList.add('show');
-
   // Get geo coordinate (lat/lon) from city name
   const coordinate = await getGeocoding(city);
 
   // Check if coordinate are valid
   if (coordinate === 'error' || coordinate === undefined) {
-    loading.classList.remove('show');
     return 'error';
   }
 
-  // await delay(2000);
-  // console.log('Waited 2s');
-
   // Get weather datas
+  let data;
+
   try {
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&exclude=minutely,hourly&appid=${API_KEY}`,
       { mode: 'cors' },
     );
 
-    const data = await response.json();
-
-    console.log(data);
-    // Check if weather data are valid
-    if (data.cod) {
-      return 'error';
-    }
+    // Check reponse status, if it's not 200, there is an error
+    if (response.status !== 200) return 'error';
+    data = await response.json();
   } catch (error) {
-    console.log(`Error fetching weather: ${error}`);
-    loading.classList.remove('show');
+    console.error(`Error fetching weather: ${error}`);
     return 'error';
   }
 
-  // Fetching image
-  const icon = await fetch('https://openweathermap.org/img/wn/10d@4x.png', {
-    mode: 'cors',
-  });
-  // const response2 = await icon.json();
-  // console.log(response2);
+  // Fetching current weather condition icon
+  // TODO: Fetch the icons also for the next days
+  const iconID = data.current.weather[0].icon;
+  const iconUrl = await getConditionIcon(iconID);
 
-  const { url } = icon;
-  test.src = url;
-  loading.classList.remove('show');
+  /* TEST ZONE */
+  await delay(2000);
+  /* TEST ZONE */
+
+  // Return row weather data and current weather condition icon
+  return [data, iconUrl];
 }
 
-export { getWeather };
+export default getWeather;

@@ -1,7 +1,7 @@
 const API_KEY = '3bf7a0b35954a29f1f35a6169ee2f0bf'; // Open weather API Key
 
 function delay(ms) {
-  // TEST: Add a delay to the resquest to test loading function
+  // TEST: Add a delay to the request to test loading function
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
@@ -14,7 +14,7 @@ async function getConditionIcon(iconID) {
       `http://openweathermap.org/img/wn/${`${iconID}`}@4x.png`,
       { mode: 'cors' },
     );
-    // Check reponse status, if not 200, there is an error
+    // Check response status, if not 200, there is an error
     if (response.status === 200) return response.url;
     return 'img_error';
   } catch (error) {
@@ -25,14 +25,13 @@ async function getConditionIcon(iconID) {
 
 async function getGeocoding(city) {
   // Fetch geographic coordinate (lat/lon) from the city name...
-  console.log(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`);
   try {
     const response = await fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`,
       { mode: 'cors' },
     );
 
-    // Check reponse status, if it's not 200, there is an error
+    // Check response status, if it's not 200, there is an error
     if (response.status !== 200) return 'error';
 
     const data = await response.json();
@@ -49,14 +48,14 @@ async function getWeather(city) {
 
   // Get geo coordinate (lat/lon) from city name
   const coordinate = await getGeocoding(city);
-console.log(coordinate);
+  console.log(coordinate);
 
   // Check if coordinate are valid
   if (coordinate === 'error' || coordinate === undefined) {
     return 'error';
   }
 
-  // Get weather datas
+  // Get weather data's
   let data;
 
   try {
@@ -65,7 +64,7 @@ console.log(coordinate);
       { mode: 'cors' },
     );
 
-    // Check reponse status, if it's not 200, there is an error
+    // Check response status, if it's not 200, there is an error
     if (response.status !== 200) return 'error';
     data = await response.json();
   } catch (error) {

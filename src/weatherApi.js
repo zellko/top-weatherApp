@@ -49,6 +49,7 @@ async function getWeather(city) {
 
   // Get geo coordinate (lat/lon) from city name
   const coordinate = await getGeocoding(city);
+console.log(coordinate);
 
   // Check if coordinate are valid
   if (coordinate === 'error' || coordinate === undefined) {
@@ -78,11 +79,11 @@ async function getWeather(city) {
   const iconUrl = await getConditionIcon(iconID);
 
   /* TEST ZONE */
-  await delay(2000);
+  // await delay(2000);
   /* TEST ZONE */
 
   // Return row weather data and current weather condition icon
-  return [data, iconUrl];
+  return [data, coordinate, iconUrl];
 }
 
 export default getWeather;

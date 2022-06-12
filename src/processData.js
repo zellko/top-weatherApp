@@ -18,7 +18,7 @@ const processData = (() => {
       feelTemp: `${Math.round(data[0].current.feels_like / 10)}°C`,
       wind: `${Math.round(data[0].current.wind_speed / (1000 / 3600))} km/h`,
       city: data[1].name,
-      country: data[1].country,
+      country: data[1].state,
       icon: weatherIcon,
     };
 

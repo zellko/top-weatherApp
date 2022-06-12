@@ -11,15 +11,16 @@ const loading = document.querySelector('.loading');
 
 const populateDom = (() => {
   const currentCard = (data) => {
+    console.log(data);
     currentCity.textContent = data.city;
-    currentCountry.textContent = data.country;
+    currentCountry.textContent = `${data.country}`;
     currentIcon.src = data.icon;
     currentIcon.alt = 'Weather condition icon';
     currentTemp.textContent = data.currentTemp;
     currentDesc.textContent = data.description;
-    currentFeel.textContent = data.feelTemp;
-    currentHumi.textContent = data.humidity;
-    currentWind.textContent = data.wind;
+    currentFeel.textContent = `Feel: ${data.feelTemp}`;
+    currentHumi.textContent = `Humidity: ${data.humidity}`;
+    currentWind.textContent = `Wind: ${data.wind}`;
   };
   const nextWeekCard = (data) => {};
 
@@ -27,6 +28,7 @@ const populateDom = (() => {
 })();
 
 function showErrorModal() {}
+
 function loadingIcon(display) {
   (display === 'add')
     ? loading.classList.add('show')

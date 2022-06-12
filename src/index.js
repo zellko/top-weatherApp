@@ -1,13 +1,14 @@
 import './style.css';
+
 import getWeather from './weatherApi';
 import processData from './processData';
 import { populateDom, showErrorModal, loadingIcon } from './dom';
 
-const bTest = document.querySelector('button');
-const cityInput = document.querySelector('#testinput');
-const b2test = document.querySelector('#test-btn');
+const searchButton = document.querySelector('.search-button');
+const form = document.querySelector('form');
+const cityInput = document.querySelector('#city-input');
 
-bTest.addEventListener('click', async () => {
+async function loadWeather() {
   loadingIcon('add');
   console.log(cityInput.value);
 
@@ -31,8 +32,62 @@ bTest.addEventListener('click', async () => {
   }
 
   loadingIcon('remove');
+}
+
+/** **********************
+EVENT LISTENER
+*********************** */
+
+form.addEventListener('keydown', (e) => {
+  // When user press "Enter"...
+  const key = e.code;
+  if (key === 'Enter') {
+    loadWeather(); // ...load the weather
+    e.preventDefault(); // ...prevent form submit
+  }
 });
 
-b2test.addEventListener('click', () => {
-  console.log('test test');
+searchButton.addEventListener('click', (e) => {
+  // When click button "search"...
+  loadWeather(); // ...load the weather
+  e.preventDefault(); // ...prevent form submit
 });
+
+/** **********************
+AUTOCOMPLETE
+*********************** */
+
+// import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
+// import autocomplete from './geoapify';
+
+// let timer; // Timer identifier
+// const waitTime = 500; // Wait time in milliseconds ;
+
+// cityInput.addEventListener('keyup', (e) => {
+//   const entry = e.target.value;
+
+//   if (entry.length <= 1) return;
+
+//   // Clear timer
+//   clearTimeout(timer);
+
+//   // Wait for X ms and then process the request
+//   timer = setTimeout(async () => {
+//     await autocomplete(entry);
+//   }, waitTime);
+// });
+
+// const autocomplete = new GeocoderAutocomplete(
+//   document.getElementById('autocomplete'),
+//   'API_KEY',
+//   { type: 'city', skipIcons: true, skipDetails: true },
+// );
+
+// autocomplete.on('select', (location) => {
+//   // check selected location here
+//   console.log(location);
+// });
+
+// autocomplete.on('suggestions', (suggestions) => {
+//   // process suggestions here
+// });

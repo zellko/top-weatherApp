@@ -4,7 +4,13 @@
     box-sizing: border-box;
 }
 
-:root{}
+:root{
+    --bg-color: #171b25;
+    --card-bg-color: #1e222d;
+    --card-border-color: #3a445c;
+    --text-color-light: #ffffff;
+    --text-color-hl: #a7b1fc;
+}
 
 @font-face {
     font-family: 'poppins';
@@ -20,25 +26,186 @@
     font-style: bold;
 }
   
-  
 
 body{
-    background-color: aquamarine;
+    background-color: var(--bg-color);
+    color: var(--text-color-light);
     font-family: 'poppins', Ubuntu,sans-serif;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
 }
 
-img{
+h2{
+    font-size: 2rem;
+    color: var(--text-color-hl);
+}
+h3{
+    font-size: 2rem;
+}
+p{
+    font-size: 1rem;
+}
+.shadow{
+    box-shadow: 0px 0px 250px 50px var(--text-color-hl);
+    position: absolute;
+    top: 50%;
+}
+
+/***************
+HEADER (SEARCH BAR)
+***************/
+.header{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 1px solid var(--text-color-hl);
+    box-shadow: 0 0 24px 2px var(--text-color-hl);
+}
+
+.search{
+    width: 90%;
+    max-width: 440px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.search form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.search form input{
+    flex: 1;
+    padding: 8px 8px 8px 48px;
+    color: var(--text-color-light);
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 4px;
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.search form button{
+    background: 0;
+    border: 0;
+    color: var(--text-color-light);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search form button:hover{
+    cursor: pointer;
+    color: var(--text-color-hl);
+    }
+    
+
+/***************
+CONTENT
+***************/
+
+.content{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 32px;
+}
+
+/* Current Weather Card*/
+
+.current-card{
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 440px;
+    display: grid;
+    grid-template-areas: 
+    "current-header current-header" 
+    "current-main current-second";
+    grid-template-columns: 60% 40%;
+}
+
+.current-card-header{
+    grid-area: current-header;
+    padding: 16px;
+    border-bottom: 1px solid var(--text-color-hl);
+}
+
+.current-card-main{
+    grid-area: current-main;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(106px, 1fr));
+    grid-template-rows: 128px;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.current-card-main > img{
     height: 128px;
+    justify-self: center;
+}
+
+.current-card-main > p{
+    font-weight: 300;
+    font-style: italic;
+    text-transform: capitalize;
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}
+.current-card-loc{
+    display: flex;
+    align-items: flex-end;
+}
+
+.current-card-loc span{
+    font-style: italic;
+    margin: 6px 8px;
+}
+.current-card-second{
+    grid-area: current-second;
+    padding: 0px 16px;
+    margin: 36px 0;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    letter-spacing: 0.2px;
+    border-left: 1px solid var(--text-color-hl);
+}
+
+.current-card-second > p{
+    border-bottom: 1px solid var(--text-color-hl);
+    padding: 8px 8px;
 }
 
 
+/* Week Weather Card*/
 
 /***************
 LOADING ANIMATION
 ***************/
-svg{
+.loading > svg{
     position: absolute;
+    color: var(--text-color-hl);
 }
 
 .loading > svg:nth-child(1){
@@ -47,11 +214,11 @@ svg{
 
 .loading {
     display: none;
-    width: 48px;
-    height: 48px;
+    width: 24px;
+    height: 24px;
     position: absolute;
-    bottom: 50%;
-    left: 50%;
+    bottom: 6px;
+    left: 54px;
     animation: loading-anim 1.2s linear infinite;
 }
 
@@ -70,4 +237,13 @@ JS CLASS
 
 .show{
     display: flex;
+}
+
+/***************
+geoapify
+***************/
+@import "~@geoapify/geocoder-autocomplete/styles/round-borders.css";
+
+.autocomplete-container {
+    position: relative;
 }

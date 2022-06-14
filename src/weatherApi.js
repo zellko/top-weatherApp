@@ -60,7 +60,7 @@ async function getWeather(city) {
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&exclude=minutely,hourly&appid=${API_KEY}`,
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&units=metric&exclude=minutely,hourly&appid=${API_KEY}`,
       { mode: 'cors' },
     );
 
@@ -85,4 +85,4 @@ async function getWeather(city) {
   return [data, coordinate, iconUrl];
 }
 
-export default getWeather;
+export { getWeather, getConditionIcon };

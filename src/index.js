@@ -1,6 +1,6 @@
 import './style.css';
 
-import getWeather from './weatherApi';
+import {getWeather} from './weatherApi';
 import processData from './processData';
 import { populateDom, showErrorModal, loadingIcon } from './dom';
 
@@ -19,11 +19,11 @@ async function loadWeather() {
   // Check if data are correct
   if (apiData !== 'error') {
     // If yes, process data's...
-    const cleanData = processData.currentWeather(apiData);
-    console.log(cleanData);
+    const cleanDataCurrent = processData.currentWeather(apiData); // Get current weather data
+    const cleanDataWeek = processData.nextWeekWeather(apiData); // Get current weather data
 
     // ...then, populate "current" card ...
-    populateDom.currentCard(cleanData[0]);
+    populateDom.currentCard(cleanDataCurrent[0]);
     // ...and "next week" card
   } else {
     // If no, show error on the page

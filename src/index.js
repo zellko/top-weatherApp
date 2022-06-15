@@ -1,6 +1,6 @@
 import './style.css';
 
-import {getWeather} from './weatherApi';
+import { getWeather } from './weatherApi';
 import processData from './processData';
 import { populateDom, showErrorModal, loadingIcon } from './dom';
 
@@ -10,11 +10,9 @@ const cityInput = document.querySelector('#city-input');
 
 async function loadWeather() {
   loadingIcon('add');
-  console.log(cityInput.value);
 
   // Fetch weather data from OpenWeather API
   const apiData = await getWeather(cityInput.value);
-  console.log(apiData);
 
   // Check if data are correct
   if (apiData !== 'error') {
@@ -23,8 +21,9 @@ async function loadWeather() {
     const cleanDataWeek = processData.nextWeekWeather(apiData); // Get current weather data
 
     // ...then, populate "current" card ...
-    populateDom.currentCard(cleanDataCurrent[0]);
+    populateDom.currentCard(cleanDataCurrent);
     // ...and "next week" card
+    populateDom.nextWeekCard(cleanDataWeek);
   } else {
     // If no, show error on the page
     loadingIcon('remove');

@@ -73,16 +73,24 @@ async function getWeather(city) {
   }
 
   // Fetching current weather condition icon
-  // TODO: Fetch the icons also for the next days
-  const iconID = data.current.weather[0].icon;
-  const iconUrl = await getConditionIcon(iconID);
+  const currentIconID = data.current.weather[0].icon;
+  const currentIconURL = await getConditionIcon(currentIconID);
+
+  // Fetch week weather condition icon
+  let weekIconURL = [];
+
+  for (let index = 0; index < 5; index++) {
+    const dailyIconID = data.daily[index].weather[0].icon;
+    const dailyIconURL = await getConditionIcon(dailyIconID);
+    weekIconURL.push(dailyIconURL);
+  }
 
   /* TEST ZONE */
-  // await delay(2000);
+  await delay(2000);
   /* TEST ZONE */
 
   // Return row weather data and current weather condition icon
-  return [data, coordinate, iconUrl];
+  return [data, coordinate, currentIconURL, weekIconURL];
 }
 
 export { getWeather, getConditionIcon };

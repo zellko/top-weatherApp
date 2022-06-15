@@ -1,5 +1,4 @@
 import { addDays, eachDayOfInterval } from 'date-fns';
-import { getConditionIcon } from './weatherApi';
 
 const processData = (() => {
   // Process data's and return an object with only the data...
@@ -25,11 +24,12 @@ const processData = (() => {
       icon: weatherIcon,
     };
 
-    return [cleanData];
+    return cleanData;
   };
-  const nextWeekWeather = async (data) => {
+  const nextWeekWeather = (data) => {
     // Return weather data's for next 5 days
-    console.log('nextWeekWeather');
+    console.log('WeekWeather');
+
     let weekWeather = [];
 
     // Get today date
@@ -46,8 +46,7 @@ const processData = (() => {
       const day = week[index];
       const dayName = day.toLocaleDateString(undefined, { weekday: 'short' });
 
-      const iconID = data[0].daily[index].weather[0].icon; // Get condition icon
-      const iconImg = await getConditionIcon(iconID); // Fetch URL to see if available
+      const iconImg = data[3][index]; // Fetch URL to check if icon available
 
       const dayData = {
         dayName,
@@ -59,7 +58,6 @@ const processData = (() => {
       weekWeather.push(dayData);
     }
 
-    console.log(weekWeather);
     return weekWeather;
   };
 

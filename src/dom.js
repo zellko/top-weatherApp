@@ -7,11 +7,15 @@ const currentFeel = document.querySelector('.current-feel');
 const currentHumi = document.querySelector('.current-humi');
 const currentWind = document.querySelector('.current-wind');
 
+const weekDay = document.querySelectorAll('.week-card-day h4');
+const weekIcon = document.querySelectorAll('.week-card-day img');
+const weekMaxTemp = document.querySelectorAll('.week-card-day h4 + img + p ');
+const weekMinTemp = document.querySelectorAll('.week-card-day h4 + img + p + p');
+
 const loading = document.querySelector('.loading');
 
 const populateDom = (() => {
   const currentCard = (data) => {
-    console.log(data);
     currentCity.textContent = data.city;
     currentCountry.textContent = `${data.country}`;
     currentIcon.src = data.icon;
@@ -22,7 +26,15 @@ const populateDom = (() => {
     currentHumi.textContent = `Humidity: ${data.humidity}`;
     currentWind.textContent = `Wind: ${data.wind}`;
   };
-  const nextWeekCard = (data) => {};
+  const nextWeekCard = (data) => {
+    for (let index = 0; index < 5; index++) {
+      weekDay[index].textContent = data[index].dayName;
+      weekIcon[index].src = data[index].img;
+      weekIcon[index].alt = `${data[index].dayName} weather condition icon`;
+      weekMaxTemp[index].textContent = `${data[index].tempMax}°C`;
+      weekMinTemp[index].textContent = `${data[index].tempMin}°C`;
+    }
+  };
 
   return { currentCard, nextWeekCard };
 })();

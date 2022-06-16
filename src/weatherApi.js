@@ -39,7 +39,7 @@ async function getGeocoding(city) {
     return data[0];
   } catch (error) {
     console.error(`Error fetching coordinate: ${error}`);
-    return 'error';
+    return 'errorCatch';
   }
 }
 
@@ -48,11 +48,14 @@ async function getWeather(city) {
 
   // Get geo coordinate (lat/lon) from city name
   const coordinate = await getGeocoding(city);
-  console.log(coordinate);
 
   // Check if coordinate are valid
   if (coordinate === 'error' || coordinate === undefined) {
     return 'error';
+  }
+
+  if (coordinate === 'errorCatch') {
+    return 'errorCatch';
   }
 
   // Get weather data's
@@ -69,7 +72,7 @@ async function getWeather(city) {
     data = await response.json();
   } catch (error) {
     console.error(`Error fetching weather: ${error}`);
-    return 'error';
+    return 'errorCatch';
   }
 
   // Fetching current weather condition icon

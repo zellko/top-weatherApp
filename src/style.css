@@ -7,6 +7,7 @@
 :root{
     --bg-color: #171b25;
     --card-bg-color: #1e222d;
+    --card-bg-color-loading: rgba(30, 34, 45, 0.8);
     --card-border-color: #3a445c;
     --text-color-light: #ffffff;
     --text-color-hl: #a7b1fc;
@@ -128,7 +129,6 @@ CONTENT
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    margin-top: 32px;
     gap: 16px;
 }
 
@@ -145,6 +145,7 @@ CONTENT
     "current-header current-header" 
     "current-main current-second";
     grid-template-columns: 60% 40%;
+    margin-top: 32px;
 }
 
 .current-card-header{
@@ -242,6 +243,16 @@ CONTENT
 /***************
 LOADING ANIMATION
 ***************/
+.loading {
+    display: none;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    bottom: 6px;
+    left: 54px;
+    animation: loading-anim 1.2s linear infinite;
+}
+
 .loading > svg{
     position: absolute;
     color: var(--text-color-hl);
@@ -251,14 +262,32 @@ LOADING ANIMATION
     transform: rotate(180deg);
 }
 
-.loading {
-    display: none;
-    width: 24px;
-    height: 24px;
+/* Loading screen */
+.loading-screen{
     position: absolute;
-    bottom: 6px;
-    left: 54px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-bg-color-loading);
+    border: 1px solid var(--card-border-color);
+    width: 100%;
+    height: 100%;
+}
+
+.loading-big {
+    display: flex;
     animation: loading-anim 1.2s linear infinite;
+    height: 96px;
+    width: 96px;
+}
+
+.loading-big  > svg{
+    position: absolute;
+    color: var(--text-color-hl);
+}
+
+.loading-big  > svg:nth-child(1){
+    transform: rotate(180deg);
 }
 
 @keyframes loading-anim {
@@ -270,19 +299,88 @@ LOADING ANIMATION
   }
 }
 
+
+/***************
+Modal
+***************/
+
+.modal{
+    display: flex;
+    opacity: 0;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    left: 50%;
+    bottom: 32px;
+
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 440px;
+
+    transform: translateX(-50%);
+    transition: opacity 1s ease-in-out;
+}
+
+.modal svg{
+    color: rgb(241, 109, 109);
+    margin: 4px;
+}
+
+.modal h2{
+    color: rgb(241, 109, 109);
+    margin: 4px;
+}
+
+.modal p{
+    color: var(--card-border-color);
+    margin: 8px;
+}
+
+.modal-close{
+    position: absolute;
+    top: 8px;
+    right: 8px;;
+}
+
+.modal-close :hover{
+    cursor: pointer;
+    color: var(--card-border-color);
+}
 /***************
 JS CLASS
 ***************/
 
 .show{
     display: flex;
+    opacity: 1;
 }
+
+/***************
+PRELOAD
+Avoid to trigger animation on page loading
+***************/
+
+.preload * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+  }
 
 /***************
 geoapify
 ***************/
+/* 
 @import "~@geoapify/geocoder-autocomplete/styles/round-borders.css";
 
 .autocomplete-container {
     position: relative;
-}
+} */

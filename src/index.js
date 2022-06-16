@@ -2,11 +2,12 @@ import './style.css';
 
 import { getWeather } from './weatherApi';
 import processData from './processData';
-import { populateDom, showErrorModal, loadingIcon } from './dom';
+import { populateDom, errorModal, loadingIcon } from './dom';
 
 const searchButton = document.querySelector('.search-button');
 const form = document.querySelector('form');
 const cityInput = document.querySelector('#city-input');
+const modalClose = document.querySelector('.modal-close');
 
 async function loadWeather() {
   loadingIcon('add');
@@ -15,7 +16,17 @@ async function loadWeather() {
   const apiData = await getWeather(cityInput.value);
 
   // Check if data are correct
-  if (apiData !== 'error') {
+  if (apiData === 'error') {
+    // If no, show error on the page - E.g. Incorrect / not found city name
+    loadingIcon('remove');
+    const message = 'Something went wrong! Please check city name or retry later';
+    errorModal.showModal(message);
+  } else if (apiData === 'errorCatch') {
+    // If no, show error on the page - Catch others errors (e.g. network)
+    loadingIcon('remove');
+    const message = 'Something went wrong! Please retry later';
+    errorModal.showModal(message);
+  } else {
     // If yes, process data's...
     const cleanDataCurrent = processData.currentWeather(apiData); // Get current weather data
     const cleanDataWeek = processData.nextWeekWeather(apiData); // Get current weather data
@@ -24,10 +35,6 @@ async function loadWeather() {
     populateDom.currentCard(cleanDataCurrent);
     // ...and "next week" card
     populateDom.nextWeekCard(cleanDataWeek);
-  } else {
-    // If no, show error on the page
-    loadingIcon('remove');
-    // TODO - Show error on the page e.g. bottom modal
   }
 
   loadingIcon('remove');
@@ -50,6 +57,21 @@ searchButton.addEventListener('click', (e) => {
   // When click button "search"...
   loadWeather(); // ...load the weather
   e.preventDefault(); // ...prevent form submit
+});
+
+modalClose.addEventListener('click', () => {
+  errorModal.hideModal();
+});
+
+/** **********************
+PRELOAD
+Avoid to trigger animation on page loading
+*********************** */
+
+const body = document.querySelector('body');
+
+window.addEventListener('load', () => {
+  body.classList.remove('preload');
 });
 
 /** **********************

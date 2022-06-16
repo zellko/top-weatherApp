@@ -13,6 +13,10 @@ const weekMaxTemp = document.querySelectorAll('.week-card-day h4 + img + p ');
 const weekMinTemp = document.querySelectorAll('.week-card-day h4 + img + p + p');
 
 const loading = document.querySelector('.loading');
+const loadingScreen = document.querySelector('.loading-screen');
+
+const modal = document.querySelector('.modal');
+const modalText = document.querySelector('.modal p');
 
 const populateDom = (() => {
   const currentCard = (data) => {
@@ -39,12 +43,28 @@ const populateDom = (() => {
   return { currentCard, nextWeekCard };
 })();
 
-function showErrorModal() {}
+const errorModal = (() => {
+  const hideModal = () => {
+    modal.classList.remove('show');
+  };
+
+  const showModal = (message) => {
+    modalText.textContent = message;
+    modal.classList.add('show');
+    setTimeout(hideModal, 5000);
+  };
+
+  return { showModal, hideModal };
+})();
 
 function loadingIcon(display) {
-  (display === 'add')
-    ? loading.classList.add('show')
-    : loading.classList.remove('show');
+  if (display === 'add') {
+    loading.classList.add('show');
+    loadingScreen.classList.add('show');
+  } else {
+    loading.classList.remove('show');
+    loadingScreen.classList.remove('show');
+  }
 }
 
-export { populateDom, showErrorModal, loadingIcon };
+export { populateDom, errorModal, loadingIcon };

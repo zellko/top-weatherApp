@@ -11,5 +11,8 @@
         "sourceType": "module"
     },
     "rules": {
+       "prefer-destructuring": "off",
+       "prefer-const": "off",
+       "no-plusplus": "off"
     }
 }

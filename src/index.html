@@ -45,46 +45,55 @@
         </div>
         <div class="current-card-main"> 
             <img class="current-icon" src="" alt="">
-            <h3 class="current-temp"></h3>
+            <h3 class="current-temp"><span class="temp"></span></h3>
             <p class="current-desc"></p>  
         </div>
         <div class="current-card-second"> 
-            <p class="current-feel"></p>
-            <p class="current-humi"></p>
-            <p class="current-wind"></p>
+            <p class="current-feel">Feel: <span class="temp"></span></p>
+            <p class="current-humi">Humidity: <span></span></p>
+            <p class="current-wind">Wind: <span></span></p>
         </div>
     </div>
         <div class="week-card">
             <div class="week-card-day">
                 <h4></h4>
                 <img src="" alt="">
-                <p></p>
-                <p></p>
+                <p><span class="temp"></span></p>
+                <p><span class="temp"></span></p>
             </div>
             <div class="week-card-day">
                 <h4></h4>
                 <img src="" alt="">
-                <p></p>
-                <p></p>
+                <p><span class="temp"></span></p>
+                <p><span class="temp"></span></p>
             </div>
             <div class="week-card-day">
                 <h4></h4>
                 <img src="" alt="">
-                <p></p>
-                <p></p>
+                <p><span class="temp"></span></p>
+                <p><span class="temp"></span></p>
             </div>
             <div class="week-card-day">
                 <h4></h4>
                 <img src="" alt="">
-                <p></p>
-                <p></p>
+                <p><span class="temp"></span></p>
+                <p><span class="temp"></span></p>
             </div>
             <div class="week-card-day">
                 <h4></h4>
                 <img src="" alt="">
-                <p></p>
-                <p></p>
+                <p><span class="temp"></span></p>
+                <p><span class="temp"></span></p>
             </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="switch-container">
+                <div class="flip"></div>
+                <div class="option" units="metric">Metric: °C</div>
+                <div class="option" units="imperial">Imperial: °F</div>
+            </div>
+
         </div>
 
         <div class="loading-screen">
@@ -102,6 +111,8 @@
 </div>
 
 
+
+
 <div class="shadow"></div>
 <div class="modal">
     <svg style="width:72px;height:72px" viewBox="0 0 24 24">
@@ -114,11 +125,5 @@
         <path fill="currentColor" d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
     </svg>
 </div>
-    <!-- <img src= <%=require("../src/img/cloud-question.png")%> />  -->
-
-    <!-- 
-        Autocomplete test with GeoApify Geocoder API  
-    <div id="autocomplete" class="autocomplete-container"></div>
--->
 </body>
 </html>

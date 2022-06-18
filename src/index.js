@@ -1,19 +1,23 @@
 import './style.css';
-
-import { getWeather } from './weatherApi';
+import getWeather from './weatherApi';
 import processData from './processData';
-import { populateDom, errorModal, loadingIcon } from './dom';
+import {
+  populateDom, errorModal, loadingIcon, convertTemp, animationFlip,
+} from './dom';
 
 const searchButton = document.querySelector('.search-button');
 const form = document.querySelector('form');
 const cityInput = document.querySelector('#city-input');
 const modalClose = document.querySelector('.modal-close');
+const optionScale = document.querySelectorAll('.option');
+
+let tempScale = 'metric';
 
 async function loadWeather() {
   loadingIcon('add');
 
   // Fetch weather data from OpenWeather API
-  const apiData = await getWeather(cityInput.value);
+  const apiData = await getWeather(cityInput.value, tempScale);
 
   // Check if data are correct
   if (apiData === 'error') {
@@ -28,8 +32,10 @@ async function loadWeather() {
     errorModal.showModal(message);
   } else {
     // If yes, process data's...
-    const cleanDataCurrent = processData.currentWeather(apiData); // Get current weather data
-    const cleanDataWeek = processData.nextWeekWeather(apiData); // Get current weather data
+    // ...Get current weather data
+    const cleanDataCurrent = processData.currentWeather(apiData, tempScale);
+    // ...Get week weather data
+    const cleanDataWeek = processData.nextWeekWeather(apiData, tempScale);
 
     // ...then, populate "current" card ...
     populateDom.currentCard(cleanDataCurrent);
@@ -60,8 +66,31 @@ searchButton.addEventListener('click', (e) => {
 });
 
 modalClose.addEventListener('click', () => {
+  // Close the modal when user click on "X" button
   errorModal.hideModal();
 });
+
+/** **********************
+OPTIONS
+*********************** */
+
+optionScale.forEach((option) => option.addEventListener('click', (e) => {
+  // Change temperature scale to °C or °F depending on user selection
+  const unitsSelection = e.target.getAttribute('units');
+
+  // Ignore if user click on scale which is already selected
+  if (unitsSelection === tempScale) return;
+
+  if (unitsSelection === 'imperial') {
+    convertTemp.toFahrenheit(); // Convert temperature value on the DOM
+    tempScale = 'imperial'; // Change selected temperature scale
+    animationFlip(tempScale); // Flip setting display
+  } else {
+    convertTemp.toCelsius();
+    tempScale = 'metric';
+    animationFlip(tempScale);
+  }
+}));
 
 /** **********************
 PRELOAD
@@ -73,42 +102,3 @@ const body = document.querySelector('body');
 window.addEventListener('load', () => {
   body.classList.remove('preload');
 });
-
-/** **********************
-AUTOCOMPLETE
-*********************** */
-
-// import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
-// import autocomplete from './geoapify';
-
-// let timer; // Timer identifier
-// const waitTime = 500; // Wait time in milliseconds ;
-
-// cityInput.addEventListener('keyup', (e) => {
-//   const entry = e.target.value;
-
-//   if (entry.length <= 1) return;
-
-//   // Clear timer
-//   clearTimeout(timer);
-
-//   // Wait for X ms and then process the request
-//   timer = setTimeout(async () => {
-//     await autocomplete(entry);
-//   }, waitTime);
-// });
-
-// const autocomplete = new GeocoderAutocomplete(
-//   document.getElementById('autocomplete'),
-//   'API_KEY',
-//   { type: 'city', skipIcons: true, skipDetails: true },
-// );
-
-// autocomplete.on('select', (location) => {
-//   // check selected location here
-//   console.log(location);
-// });
-
-// autocomplete.on('suggestions', (suggestions) => {
-//   // process suggestions here
-// });

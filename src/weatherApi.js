@@ -1,11 +1,11 @@
 const API_KEY = '3bf7a0b35954a29f1f35a6169ee2f0bf'; // Open weather API Key
 
-function delay(ms) {
-  // TEST: Add a delay to the request to test loading function
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+// function delay(ms) {
+//   // TEST: Add a delay to the request to test loading function
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, ms);
+//   });
+// }
 
 async function getConditionIcon(iconID) {
   // Fetch weather condition icon...
@@ -43,17 +43,18 @@ async function getGeocoding(city) {
   }
 }
 
-async function getWeather(city) {
+async function getWeather(city, units) {
   // Fetch weather for the entered country
 
   // Get geo coordinate (lat/lon) from city name
   const coordinate = await getGeocoding(city);
 
-  // Check if coordinate are valid
+  // Check for API response error
   if (coordinate === 'error' || coordinate === undefined) {
     return 'error';
   }
 
+  // Check for a "catch" error
   if (coordinate === 'errorCatch') {
     return 'errorCatch';
   }
@@ -62,8 +63,9 @@ async function getWeather(city) {
   let data;
 
   try {
+    // Get weather data using Open Weather API
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&units=metric&exclude=minutely,hourly&appid=${API_KEY}`,
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&units=${units}&exclude=minutely,hourly&appid=${API_KEY}`,
       { mode: 'cors' },
     );
 
@@ -83,17 +85,18 @@ async function getWeather(city) {
   let weekIconURL = [];
 
   for (let index = 0; index < 5; index++) {
+    // Fetch weather icon for the week
     const dailyIconID = data.daily[index].weather[0].icon;
     const dailyIconURL = await getConditionIcon(dailyIconID);
     weekIconURL.push(dailyIconURL);
   }
 
   /* TEST ZONE */
-  await delay(2000);
+  // await delay(2000);
   /* TEST ZONE */
 
   // Return row weather data and current weather condition icon
   return [data, coordinate, currentIconURL, weekIconURL];
 }
 
-export { getWeather, getConditionIcon };
+export default getWeather;

@@ -11,6 +11,7 @@
     --card-border-color: #3a445c;
     --text-color-light: #ffffff;
     --text-color-hl: #a7b1fc;
+    --toggle-settings: #24c5b6;
 }
 
 @font-face {
@@ -241,6 +242,51 @@ CONTENT
 }
 
 /***************
+SETTINGS °C / °F
+***************/
+.settings-card{    
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 440px;
+    padding: 16px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.switch-container{
+    position: relative;
+    display: flex;
+    gap: 8px;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 4px;
+    width: 80%;
+}
+
+.option{
+    z-index: 1;
+    flex: 1;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.flip{
+    position: absolute;
+    top: 0;
+    left: 0%;
+    width: 50%;
+    height: 100%;
+    border-radius: 4px;
+    background-color: var(--toggle-settings);
+    transition: left .5s ease-in-out;
+}
+
+
+/***************
 LOADING ANIMATION
 ***************/
 .loading {
@@ -298,7 +344,6 @@ LOADING ANIMATION
     transform: rotate(360deg);
   }
 }
-
 
 /***************
 Modal
@@ -363,6 +408,10 @@ JS CLASS
     opacity: 1;
 }
 
+.flip-active{
+    left: 50%;
+}
+
 /***************
 PRELOAD
 Avoid to trigger animation on page loading
@@ -374,13 +423,3 @@ Avoid to trigger animation on page loading
     -ms-transition: none !important;
     -o-transition: none !important;
   }
-
-/***************
-geoapify
-***************/
-/* 
-@import "~@geoapify/geocoder-autocomplete/styles/round-borders.css";
-
-.autocomplete-container {
-    position: relative;
-} */

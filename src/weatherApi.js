@@ -11,7 +11,7 @@ async function getConditionIcon(iconID) {
   // Fetch weather condition icon...
   try {
     const response = await fetch(
-      `http://openweathermap.org/img/wn/${`${iconID}`}@4x.png`,
+      `https://openweathermap.org/img/wn/${`${iconID}`}@4x.png`,
       { mode: 'cors' },
     );
     // Check response status, if not 200, there is an error
@@ -27,7 +27,7 @@ async function getGeocoding(city) {
   // Fetch geographic coordinate (lat/lon) from the city name...
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`,
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`,
       { mode: 'cors' },
     );
 
